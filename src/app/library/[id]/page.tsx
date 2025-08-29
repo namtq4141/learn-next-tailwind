@@ -1,25 +1,45 @@
-// app/library/[id]/page.tsx
-type Props = {
-  params: { id: string };
+import { bookListData } from "@/app/data";
+import { Button } from "@mui/material";
+import Image from "next/image";
+import { use } from "react";
+import { Book } from "../components/BookList";
+
+type BookDetailProps = {
+  params: Promise<{ id: string }>;
 };
 
-export default async function BookDetail({ params }: Props) {
-  const res = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${params.id}`,
-    { next: { revalidate: 60 } }
-  );
-  const book = await res.json();
+export default async function BookDetail({ params }: BookDetailProps) {
+  const { id } = await params;
+  const bookTarget = bookListData.find((ele: Book) => {
+    return ele.id === Number(id);
+  });
+  const { imageUrl = "", title, price, desc } = bookTarget || {};
+  console.log({ bookTarget });
 
   return (
-    <main className="p-6">
-      <div className="grid grid-cols-2 gap-2">
-        <div></div>
+    <div className="p-4 grid grid-cols-2 gap-4">
+      <div className="img bg-[#354F71] w-[573px] h-[480px] justify-center items-center flex rounded-2xl">
+        <Image
+          alt=""
+          src={imageUrl}
+          width={300}
+          height={400}
+          className="object-cover "
+        />
       </div>
-      <h1 className="text-xl font-bold">{book.title}</h1>
-      <p>{book.body}</p>
-      <button className="mt-4 border px-4 py-2 rounded bg-blue-500 text-white">
-        📖 Mượn sách
-      </button>
-    </main>
+      <div className="right-content flex flex-col h-full gap-10">
+        <h3 className="font-semibold text-[40px]">{title}</h3>
+        <div className="amount text-[32px] font-semibold">${price}</div>
+        <div className="text[16px]">{desc}</div>
+        <div className="button grid grid-cols-[30%_70%] gap-4">
+          <Button color="success" variant="outlined">
+            Add to cart
+          </Button>
+          <Button color="primary" variant="contained">
+            Buy
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
