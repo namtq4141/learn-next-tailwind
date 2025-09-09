@@ -1,7 +1,6 @@
 import { bookListData } from "@/app/data";
 import { Button } from "@mui/material";
 import Image from "next/image";
-import { use } from "react";
 import { Book } from "../components/BookList";
 
 type BookDetailProps = {
