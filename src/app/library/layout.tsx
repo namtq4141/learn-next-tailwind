@@ -1,7 +1,7 @@
 "use client";
 
 import MenuList from "./components/MenuList";
-import TextFieldElement from "../components/TextFieldElement";
+import TextFieldElement from "../../components/TextFieldElement";
 import { FormProvider, useForm } from "react-hook-form";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
@@ -56,7 +56,11 @@ export default function LibraryLayout({
                       icon: <SettingsApplicationsIcon fontSize="large" />,
                       label: "Settings",
                     },
-                    { icon: <LogoutIcon fontSize="large" />, label: "Log out" },
+                    {
+                      icon: <LogoutIcon fontSize="large" />,
+                      label: "Log out",
+                      action: () => window.open("/login", "_self"),
+                    },
                   ]}
                 />
               </div>
